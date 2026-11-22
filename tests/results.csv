@@ -1,0 +1,151 @@
+name,category,rms,peak,nan,realtime_x
+redline,Leads,0.3925,0.662,0,89.4
+lockjaw,Leads,0.3510,0.610,0,84.7
+whistler,Leads,0.3657,0.670,0,89.9
+mainstage,Leads,0.3974,0.862,0,66.4
+hands up,Leads,0.3511,0.825,0,63.5
+slide,Leads,0.3089,0.653,0,124.3
+scream,Leads,0.3716,0.685,0,130.6
+8bit heart,Leads,0.3481,0.561,0,146.0
+pixel run,Leads,0.3652,0.695,0,134.1
+acid rain,Leads,0.3764,0.634,0,135.9
+acid wash,Leads,0.3624,0.467,0,139.3
+pulse,Leads,0.3680,0.702,0,130.6
+halo glow,Leads,0.4208,0.868,0,95.3
+heavyweight,Leads,0.3711,0.714,0,125.2
+cry baby,Leads,0.4554,0.888,0,99.0
+neon rain,Leads,0.5256,0.905,0,113.7
+ghost flute,Leads,0.3728,0.644,0,128.0
+razorwire,Leads,0.3511,0.599,0,132.7
+two face,Leads,0.3965,0.758,0,128.5
+soft kill,Leads,0.3971,0.653,0,133.7
+future ex,Leads,0.3853,0.849,0,70.6
+feather,Leads,0.4085,0.874,0,65.5
+hoover,Leads,0.3047,0.663,0,115.9
+night drive,Leads,0.4084,0.866,0,94.6
+hollow point,Leads,0.3889,0.777,0,140.6
+screamer,Leads,0.3617,0.670,0,125.9
+phantom,Leads,0.4395,0.712,0,136.0
+west coast,Leads,0.3651,0.589,0,140.2
+wah wah,Leads,0.3490,0.697,0,133.1
+octave jump,Leads,0.3812,0.852,0,90.1
+ice pick,Plucks,0.3534,0.792,0,121.9
+trance state,Plucks,0.2510,0.727,0,105.3
+candy,Plucks,0.3194,0.620,0,132.5
+glass toy,Plucks,0.3188,0.781,0,111.0
+rewind,Plucks,0.4029,0.872,0,124.2
+sparkle,Plucks,0.2162,0.695,0,103.2
+snap,Plucks,0.3719,0.782,0,126.9
+angel harp,Plucks,0.3701,0.809,0,97.7
+broken toy,Plucks,0.3302,0.784,0,106.4
+island,Plucks,0.3259,0.657,0,106.6
+katana,Plucks,0.3742,0.850,0,114.1
+bell tower,Plucks,0.3903,0.800,0,86.2
+progress,Plucks,0.3460,0.800,0,98.2
+stab,Plucks,0.2187,0.681,0,116.2
+dry ice,Plucks,0.3383,0.510,0,138.6
+sequence,Plucks,0.3772,0.776,0,116.2
+acid drip,Plucks,0.3426,0.781,0,137.7
+fairy,Plucks,0.3797,0.849,0,121.8
+riff,Plucks,0.3731,0.795,0,115.6
+waterdrop,Plucks,0.3564,0.772,0,115.5
+tiptoe,Plucks,0.2849,0.691,0,119.1
+house key,Plucks,0.3558,0.775,0,136.7
+bloop,Plucks,0.2694,0.706,0,78.2
+royal,Plucks,0.3619,0.759,0,103.4
+vibe check,Plucks,0.3440,0.776,0,87.4
+8bit kiss,Plucks,0.3784,0.723,0,114.2
+daydream,Plucks,0.4228,0.847,0,64.9
+ping,Plucks,0.3403,0.760,0,106.3
+poly,Plucks,0.3530,0.794,0,110.6
+sunburn,Plucks,0.3306,0.714,0,111.8
+cloud 9,Pads,0.4850,0.898,0,72.2
+glass house,Pads,0.4851,0.899,0,65.5
+void,Pads,0.5218,0.905,0,62.8
+warm body,Pads,0.3993,0.881,0,105.7
+heaven strings,Pads,0.5109,0.902,0,78.6
+gold brass,Pads,0.4382,0.873,0,102.0
+dreamstate,Pads,0.5431,0.908,0,101.2
+epic,Pads,0.4949,0.906,0,97.7
+retro love,Pads,0.4613,0.896,0,86.1
+breathe,Pads,0.4906,0.901,0,62.5
+choir boy,Pads,0.4554,0.884,0,85.7
+sunrise,Pads,0.5399,0.905,0,66.3
+tidal,Pads,0.3932,0.826,0,106.6
+frozen,Pads,0.4202,0.876,0,97.3
+ether,Pads,0.4402,0.889,0,74.4
+sweep,Pads,0.5192,0.906,0,88.0
+heartbeat,Pads,0.3833,0.866,0,76.9
+tremble,Pads,0.3954,0.873,0,102.3
+movie star,Pads,0.4967,0.902,0,71.5
+lofi tears,Pads,0.4072,0.857,0,107.1
+aurora,Pads,0.5318,0.904,0,77.5
+open sky,Pads,0.4803,0.899,0,86.3
+darkroom,Pads,0.4707,0.903,0,84.6
+silk,Pads,0.4486,0.885,0,66.4
+royal brass,Pads,0.4207,0.872,0,88.3
+old strings,Pads,0.4740,0.899,0,81.8
+vapor,Pads,0.5122,0.891,0,84.3
+deep space,Pads,0.3968,0.867,0,78.3
+tape strings,Pads,0.3674,0.855,0,108.3
+prism,Pads,0.5282,0.908,0,55.9
+reese,Baixos,0.3139,0.392,0,127.6
+sub zero,Baixos,0.3346,0.406,0,138.5
+wobble,Baixos,0.3287,0.468,0,127.4
+tank,Baixos,0.3466,0.455,0,146.0
+bounce,Baixos,0.3473,0.532,0,145.0
+earthquake,Baixos,0.3465,0.513,0,123.6
+acid bath,Baixos,0.3487,0.429,0,147.2
+bunker,Baixos,0.3523,0.476,0,142.0
+low rider,Baixos,0.3800,0.606,0,105.7
+double tap,Baixos,0.3503,0.491,0,112.4
+slap,Baixos,0.3299,0.432,0,113.9
+80s villain,Baixos,0.3349,0.501,0,145.1
+outrun,Baixos,0.3719,0.671,0,122.7
+stairs,Baixos,0.2162,0.681,0,137.3
+growl,Baixos,0.3377,0.368,0,101.8
+neuro,Baixos,0.2090,0.599,0,100.3
+abyss,Baixos,0.3306,0.423,0,105.3
+warehouse,Baixos,0.3480,0.432,0,72.8
+gut punch,Baixos,0.3608,0.545,0,99.9
+rubber,Baixos,0.3358,0.494,0,121.2
+rolling,Baixos,0.2255,0.553,0,111.3
+chunky,Baixos,0.3409,0.409,0,117.6
+crusher,Baixos,0.3496,0.392,0,118.1
+duo,Baixos,0.3435,0.505,0,113.0
+long slide,Baixos,0.3380,0.390,0,89.1
+slow wobble,Baixos,0.3468,0.376,0,83.6
+thumb,Baixos,0.3723,0.442,0,96.8
+clean sub,Baixos,0.3080,0.413,0,95.1
+motor city,Baixos,0.3474,0.456,0,76.0
+talkbox,Baixos,0.3407,0.477,0,93.9
+cathedral,Eletrônicos,0.3729,0.854,0,64.1
+club stab,Eletrônicos,0.3371,0.664,0,66.9
+sermon,Eletrônicos,0.3467,0.720,0,55.1
+string theory,Eletrônicos,0.4727,0.899,0,53.7
+cold keys,Eletrônicos,0.3685,0.763,0,68.6
+funeral bells,Eletrônicos,0.4212,0.862,0,58.7
+brass knuckles,Eletrônicos,0.3835,0.859,0,66.2
+jump,Eletrônicos,0.4057,0.820,0,60.0
+rave,Eletrônicos,0.4111,0.797,0,73.8
+chord memory,Eletrônicos,0.3391,0.722,0,87.9
+house party,Eletrônicos,0.3402,0.723,0,57.8
+devil organ,Eletrônicos,0.3403,0.735,0,61.6
+funk bot,Eletrônicos,0.3653,0.635,0,81.2
+velvet keys,Eletrônicos,0.3348,0.693,0,59.8
+music box,Eletrônicos,0.3410,0.778,0,69.5
+robot choir,Eletrônicos,0.3967,0.841,0,73.4
+laser tag,Eletrônicos,0.3293,0.746,0,88.5
+sirens,Eletrônicos,0.4885,0.844,0,89.9
+ghost wind,Eletrônicos,0.3424,0.818,0,66.1
+stranger,Eletrônicos,0.2771,0.769,0,86.2
+loop city,Eletrônicos,0.2404,0.806,0,84.8
+island steel,Eletrônicos,0.3253,0.683,0,72.0
+pied piper,Eletrônicos,0.3455,0.816,0,61.2
+sax appeal,Eletrônicos,0.4254,0.789,0,87.3
+brass ghost,Eletrônicos,0.4197,0.793,0,90.8
+ensemble,Eletrônicos,0.3746,0.851,0,56.1
+lofi heart,Eletrônicos,0.3429,0.763,0,69.8
+glitch bells,Eletrônicos,0.4366,0.867,0,46.9
+raindrops,Eletrônicos,0.3225,0.782,0,67.9
+low tide,Eletrônicos,0.3225,0.652,0,69.5

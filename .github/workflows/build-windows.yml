@@ -1,0 +1,59 @@
+name: Build Nosfera (Windows)
+
+on:
+  push:
+    branches: [nosfera]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Baixar WebView2 SDK
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force -Path nuget | Out-Null
+          Invoke-WebRequest -Uri https://www.nuget.org/api/v2/package/Microsoft.Web.WebView2/1.0.3485.44 -OutFile nuget\webview2.zip
+          Expand-Archive nuget\webview2.zip -DestinationPath nuget\Microsoft.Web.WebView2.1.0.3485.44 -Force
+
+      - name: Configurar
+        shell: pwsh
+        run: cmake -B build -A x64 -DJUCE_WEBVIEW2_PACKAGE_LOCATION="$PWD/nuget"
+
+      - name: Compilar
+        run: cmake --build build --config Release --target Nosfera_VST3 Nosfera_Standalone --parallel
+
+      - name: Separar arquivos
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force -Path stage\VST3, stage\Standalone | Out-Null
+          Copy-Item -Recurse build\Nosfera_artefacts\Release\VST3\Nosfera.vst3 stage\VST3\
+          Copy-Item build\Nosfera_artefacts\Release\Standalone\Nosfera.exe stage\Standalone\
+          Get-ChildItem -Recurse stage | Select-Object FullName, Length
+
+      - name: Criar instalador
+        shell: pwsh
+        run: |
+          choco install innosetup -y --no-progress
+          & "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" installer\nosfera.iss
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Nosfera-Windows
+          path: |
+            dist/Nosfera-Setup.exe
+            stage/
+
+      - name: Publicar instalador no branch nosfera-build
+        shell: bash
+        run: |
+          mkdir out && cp dist/Nosfera-Setup.exe out/ && cp -r stage out/
+          cd out
+          git init -q && git checkout -q -b nosfera-build
+          git add . && git -c user.name="github-actions" -c user.email="actions@github.com" commit -qm "Nosfera build ${GITHUB_SHA::7}"
+          git push -f "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${GITHUB_REPOSITORY}.git" nosfera-build
