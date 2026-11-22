@@ -71,7 +71,7 @@ No FL Studio:
 
 ## 6. Usando
 
-- Os **600 presets** aparecem no navegador do plugin e também no menu de presets do FL (setinhas do plugin).
+- Os **700 presets** aparecem no navegador do plugin e também no menu de presets do FL (setinhas do plugin).
 - As notas do **piano roll** e do seu teclado MIDI acendem as teclas na interface.
 - Todos os knobs podem ser **automatizados** no FL (botão direito no knob do FL → Create automation clip).
 - Ao salvar o projeto do FL, o som e o preset ficam salvos junto.
@@ -87,7 +87,7 @@ cmake --build build --config Release --target Nosfera_Standalone
 
 ## O que já foi testado
 
-- Os 600 presets geram som, sem silêncio, sem distorção e sem erros.
+- Os 700 presets geram som, sem silêncio, sem distorção e sem erros.
 - O plugin passou no **pluginval** (validador usado pela indústria) no nível máximo de rigor (10).
 - A janela do plugin abre com a interface completa.
 - Salvar e restaurar o projeto mantém o preset e todos os knobs.
@@ -102,7 +102,7 @@ Antes de vender o Nosfera, confira a licença em https://juce.com/get-juce/.
 ## Estrutura do projeto
 
 - `Source/SynthEngine.h` — motor de som (osciladores, filtro, envelopes, efeitos).
-- `Source/Presets.h` — os 600 presets.
+- `Source/Presets.h` — os 700 presets.
 - `Source/Params.h` — os parâmetros (knobs) que o FL enxerga.
 - `Source/PluginProcessor.*` — a parte de áudio do plugin.
 - `Source/PluginEditor.*` — a janela do plugin (mostra a interface `ui/index.html`).
