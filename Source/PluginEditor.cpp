@@ -7,8 +7,8 @@ NosferaEditor::NosferaEditor (NosferaProcessor& p)
     addAndMakeVisible (web);
     web.goToURL (juce::WebBrowserComponent::getResourceProviderRoot());
     setResizable (true, true);
-    setResizeLimits (420, 560, 2600, 2200);
-    setSize (1240, 900);
+    setResizeLimits (640, 480, 2600, 2000);
+    setSize (980, 740);
     lastValues.assign (nosfera::paramDefs().size(), -1.0e9f);
     startTimerHz (30);
 }
