@@ -938,17 +938,23 @@ function heights(sk,W,H,pg){const c=document.createElement('canvas');c.width=W;c
       if(veins){g.lineWidth=Math.max(1,1.1*k);g.strokeStyle=gray(h-.06);for(let s=-1;s<=1;s+=2)for(let j=1;j<5;j++){const px=len*j/5.5;g.beginPath();g.moveTo(px,0);g.lineTo(px+len*.1,s*wid*.5*(1-j/7));g.stroke()}}
       g.restore()};
     const y1=H*.06,y2=H*.165,y3=H*.215,y4=H*.785,y5=H*.835,y6=H*.94,xL=H*.055,xR=W-H*.055,mz=y4-y3;
-    // faixa superior: meandro grego
-    slab(xL,y1,xR-xL,y2-y1,.3,3*k);
-    {const c=(y2-y1)/6,by=y1+c,lw=c*.56;let x0=xL+c*.9;const units=Math.floor((xR-xL-c*1.8)/(c*5));x0=(W-units*c*5)/2+c*.5;
+    // molduras: cada aba tem as suas faixas
+    const band=(ya,yb)=>slab(xL,ya,xR-xL,yb-ya,.3,3*k);
+    const meander=(ya,yb)=>{band(ya,yb);const c=(yb-ya)/6,by=ya+c,lw=c*.56;const units=Math.floor((xR-xL-c*1.8)/(c*5));let x0=(W-units*c*5)/2+c*.5;
       tube([[x0-c*.5,by+4*c],[x0+units*c*5-c*.5,by+4*c]],lw,.42,.56,6,1);
-      for(let u=0;u<units;u++,x0+=c*5)tube([[x0,by+4*c],[x0,by],[x0+4*c,by],[x0+4*c,by+3*c],[x0+c,by+3*c],[x0+c,by+c],[x0+3*c,by+c],[x0+3*c,by+2*c],[x0+2*c,by+2*c]],lw,.42,.56,6,1)}
-    for(const yy of[y2+5*k,y2+11*k,y5-9*k,y5-3*k])tube([[xL+6*k,yy],[xR-6*k,yy]],2.6*k,.3,.38,3);
-    // faixa inferior: onda vitruviana
-    slab(xL,y5+2*k,xR-xL,y6-y5-2*k,.3,3*k);
-    {const A=(y6-y5)*.6,wb=y6-(y6-y5)*.19,wp=A*1.8,n=Math.floor((xR-xL-A*.4)/wp);let x0=(W-n*wp)/2;const lw=A*.17;
-      for(let u=0;u<n;u++,x0+=wp){const pts=[];for(let t=0;t<=1.0001;t+=.025){const f=t<.62?Math.pow(Math.sin(t/.62*Math.PI/2),1.5):Math.pow(Math.cos((t-.62)/.38*Math.PI/2),.7);pts.push([x0+t*wp,wb-A*f])}
-        tube(pts,lw,.42,.56,6);tube(spiral(x0+wp*.62,wb-A*.5,A*.48,A*.1,-Math.PI/2,1.05,1),lw*.9,.42,.56,6)}}
+      for(let u=0;u<units;u++,x0+=c*5)tube([[x0,by+4*c],[x0,by],[x0+4*c,by],[x0+4*c,by+3*c],[x0+c,by+3*c],[x0+c,by+c],[x0+3*c,by+c],[x0+3*c,by+2*c],[x0+2*c,by+2*c]],lw,.42,.56,6,1)};
+    const vitruv=(ya,yb,flip)=>{band(ya,yb);const A=(yb-ya)*.6,wb=flip?ya+(yb-ya)*.19:yb-(yb-ya)*.19,sg=flip?-1:1,wp=A*1.8,n=Math.floor((xR-xL-A*.4)/wp);let x0=(W-n*wp)/2;const lw=A*.17;
+      for(let u=0;u<n;u++,x0+=wp){const pts=[];for(let t=0;t<=1.0001;t+=.025){const f=t<.62?Math.pow(Math.sin(t/.62*Math.PI/2),1.5):Math.pow(Math.cos((t-.62)/.38*Math.PI/2),.7);pts.push([x0+t*wp,wb-sg*A*f])}
+        tube(pts,lw,.42,.56,6);tube(spiral(x0+wp*.62,wb-sg*A*.5,A*.48,A*.1,-sg*Math.PI/2,1.05,sg),lw*.9,.42,.56,6)}};
+    const dentils=(ya,yb)=>{band(ya,yb);const hh=(yb-ya)*.62,bw=hh*.62,gap=bw*.55,n=Math.floor((xR-xL-gap*2)/(bw+gap));let x=(W-n*(bw+gap)+gap)/2;for(let j=0;j<n;j++,x+=bw+gap)slab(x,ya+(yb-ya)*.19,bw,hh,.58,Math.max(1.5,bw*.18))};
+    const beads=(ya,yb)=>{band(ya,yb);const cy=(ya+yb)/2,r=(yb-ya)*.28,step=r*3.4,n=Math.floor((xR-xL-step)/step);let x=(W-n*step)/2+step/2;for(let j=0;j<n;j++,x+=step){oval(x,cy,r*1.15,r*.8,.6);dome(x+step/2,cy,r*.32,.56)}};
+    const flutes=(ya,yb)=>{band(ya,yb);const fw=(yb-ya)*.26,n=Math.floor((xR-xL-fw*3)/(fw*1.7));let x=(W-n*fw*1.7)/2+fw*.85;for(let j=0;j<n;j++,x+=fw*1.7)groove([[x,ya+(yb-ya)*.25],[x,yb-(yb-ya)*.25]],fw,.34,.24,5)};
+    const rules=ys=>{for(const yy of ys)tube([[xL+6*k,yy],[xR-6*k,yy]],2.6*k,.3,.38,3)};
+    if(pg===1){dentils(y1,y2);dentils(y5+2*k,y6);rules([y2+6*k,y5-4*k])}
+    else if(pg===2){beads(y1,y2);flutes(y5+2*k,y6);rules([y2+5*k,y2+11*k,y5-9*k,y5-3*k])}
+    else if(pg===3){vitruv(y1,y2,1);vitruv(y5+2*k,y6)}
+    else if(pg===4){rules([y1+H*.03,y1+H*.045,y6-H*.045,y6-H*.03])}
+    else{meander(y1,y2);vitruv(y5+2*k,y6);rules([y2+5*k,y2+11*k,y5-9*k,y5-3*k])}
     // colunas j\u00f4nicas
     const col=xc=>{const cw=H*.1,top=y3+H*.006,bot=y4-H*.004,ch=H*.075,bh=H*.05;
       slab(xc-cw*.66,bot-bh*.36,cw*1.32,bh*.36,.52,2*k);tube([[xc-cw*.56,bot-bh*.55],[xc+cw*.56,bot-bh*.55]],bh*.3,.46,.6,7);tube([[xc-cw*.5,bot-bh*.86],[xc+cw*.5,bot-bh*.86]],bh*.22,.46,.58,7);
@@ -958,7 +964,9 @@ function heights(sk,W,H,pg){const c=document.createElement('canvas');c.width=W;c
       tube([[xc-cw*.6,top+ch*.36],[xc+cw*.6,top+ch*.36]],ch*.26,.54,.64,6);
       slab(xc-cw*.74,top,cw*1.48,ch*.24,.64,2*k);
       for(const s of[-1,1]){const vx=xc+s*cw*.6,vy=top+ch*.6;dome(vx,vy,ch*.38,.68);tube(spiral(vx,vy,ch*.34,ch*.05,-Math.PI/2,2.1,s),Math.max(1.5,2.2*k),.6,.63,3);dome(vx,vy,ch*.07,.72)}};
-    const xc=xL+H*.13;col(xc);col(W-xc);
+    const doric=xc=>{const cw=H*.085,top=y3+H*.01,bot=y4-H*.006;slab(xc-cw*.62,bot-H*.022,cw*1.24,H*.022,.52,2*k);slab(xc-cw*.66,top,cw*1.32,H*.026,.62,2*k);tube([[xc-cw*.5,top+H*.038],[xc+cw*.5,top+H*.038]],H*.022,.5,.62,6);
+      const sx0=xc-cw*.42,sx1=xc+cw*.42,gr=g.createLinearGradient(sx0,0,sx1,0);gr.addColorStop(0,gray(.44));gr.addColorStop(.5,gray(.6));gr.addColorStop(1,gray(.44));g.fillStyle=gr;g.fillRect(sx0,top+H*.05,sx1-sx0,bot-H*.022-(top+H*.05))};
+    const xc=xL+H*.13;if(pg===0){col(xc);col(W-xc)}else if(pg===2){doric(xc);doric(W-xc)}
     // palmetas e l\u00f3tus (anthemion), espelhados
     const cxm=W/2,cym=(y3+y4)/2+H*.01,Rw=mz*.46,hp=mz*.74,yb=y4-mz*.07;
     const palm=x=>{for(let j=0;j<7;j++){const t=j/6-.5,a=-Math.PI/2+t*2,len=hp*.82*(.62+.38*Math.cos(t*Math.PI));g.save();g.translate(x,yb-hp*.14);g.rotate(a);petal(len,len*.13,.5+.08*(1-Math.abs(t)*2),.05);g.restore()}
