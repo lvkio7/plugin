@@ -1,7 +1,7 @@
 ; Instalador do Nosfera (gerado pelo GitHub Actions)
 [Setup]
 AppName=Nosfera
-AppVersion=0.4.0
+AppVersion=0.4.1
 AppPublisher=Nosfera Audio
 DefaultDirName={autopf}\Nosfera
 DefaultGroupName=Nosfera
