@@ -75,7 +75,9 @@ juce::WebBrowserComponent::Options NosferaEditor::makeOptions()
         // A página terminou um clique: o foco volta para o FL.
         .withEventListener ("blur", [this] (const juce::var&)
         {
-            juce::MessageManager::callAsync ([safe = juce::Component::SafePointer<NosferaEditor> (this)] { if (safe != nullptr) safe->giveFocusBack(); });
+            NosferaEditor* self = this;
+            juce::Component::SafePointer<NosferaEditor> safe (self);
+            juce::MessageManager::callAsync ([safe] { if (auto* ed = safe.getComponent()) ed->giveFocusBack(); });
         })
         .withEventListener ("panic", [this] (const juce::var&) { proc.uiPanic = true; proc.keyboard.allNotesOff (1); })
         .withEventListener ("bend", [this] (const juce::var& e) { proc.uiBend = (float) (double) e.getProperty ("c", 0.0); })
