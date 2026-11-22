@@ -950,11 +950,12 @@ function heights(sk,W,H,pg){const c=document.createElement('canvas');c.width=W;c
     const beads=(ya,yb)=>{band(ya,yb);const cy=(ya+yb)/2,r=(yb-ya)*.28,step=r*3.4,n=Math.floor((xR-xL-step)/step);let x=(W-n*step)/2+step/2;for(let j=0;j<n;j++,x+=step){oval(x,cy,r*1.15,r*.8,.6);dome(x+step/2,cy,r*.32,.56)}};
     const flutes=(ya,yb)=>{band(ya,yb);const fw=(yb-ya)*.26,n=Math.floor((xR-xL-fw*3)/(fw*1.7));let x=(W-n*fw*1.7)/2+fw*.85;for(let j=0;j<n;j++,x+=fw*1.7)groove([[x,ya+(yb-ya)*.25],[x,yb-(yb-ya)*.25]],fw,.34,.24,5)};
     const rules=ys=>{for(const yy of ys)tube([[xL+6*k,yy],[xR-6*k,yy]],2.6*k,.3,.38,3)};
-    if(pg===1){dentils(y1,y2);dentils(y5+2*k,y6);rules([y2+6*k,y5-4*k])}
-    else if(pg===2){beads(y1,y2);flutes(y5+2*k,y6);rules([y2+5*k,y2+11*k,y5-9*k,y5-3*k])}
-    else if(pg===3){vitruv(y1,y2,1);vitruv(y5+2*k,y6)}
-    else if(pg===4){rules([y1+H*.03,y1+H*.045,y6-H*.045,y6-H*.03])}
-    else{meander(y1,y2);vitruv(y5+2*k,y6);rules([y2+5*k,y2+11*k,y5-9*k,y5-3*k])}
+    const R4=[y2+5*k,y2+11*k,y5-9*k,y5-3*k];
+    if(pg===1){vitruv(y1,y2,1);meander(y5+2*k,y6);rules(R4)}
+    else if(pg===2){beads(y1,y2);meander(y5+2*k,y6);rules(R4)}
+    else if(pg===3){meander(y1,y2);beads(y5+2*k,y6);rules(R4)}
+    else if(pg===4){vitruv(y1,y2,1);vitruv(y5+2*k,y6);rules(R4)}
+    else{meander(y1,y2);vitruv(y5+2*k,y6);rules(R4)}
     // colunas j\u00f4nicas
     const col=xc=>{const cw=H*.1,top=y3+H*.006,bot=y4-H*.004,ch=H*.075,bh=H*.05;
       slab(xc-cw*.66,bot-bh*.36,cw*1.32,bh*.36,.52,2*k);tube([[xc-cw*.56,bot-bh*.55],[xc+cw*.56,bot-bh*.55]],bh*.3,.46,.6,7);tube([[xc-cw*.5,bot-bh*.86],[xc+cw*.5,bot-bh*.86]],bh*.22,.46,.58,7);
@@ -966,7 +967,7 @@ function heights(sk,W,H,pg){const c=document.createElement('canvas');c.width=W;c
       for(const s of[-1,1]){const vx=xc+s*cw*.6,vy=top+ch*.6;dome(vx,vy,ch*.38,.68);tube(spiral(vx,vy,ch*.34,ch*.05,-Math.PI/2,2.1,s),Math.max(1.5,2.2*k),.6,.63,3);dome(vx,vy,ch*.07,.72)}};
     const doric=xc=>{const cw=H*.085,top=y3+H*.01,bot=y4-H*.006;slab(xc-cw*.62,bot-H*.022,cw*1.24,H*.022,.52,2*k);slab(xc-cw*.66,top,cw*1.32,H*.026,.62,2*k);tube([[xc-cw*.5,top+H*.038],[xc+cw*.5,top+H*.038]],H*.022,.5,.62,6);
       const sx0=xc-cw*.42,sx1=xc+cw*.42,gr=g.createLinearGradient(sx0,0,sx1,0);gr.addColorStop(0,gray(.44));gr.addColorStop(.5,gray(.6));gr.addColorStop(1,gray(.44));g.fillStyle=gr;g.fillRect(sx0,top+H*.05,sx1-sx0,bot-H*.022-(top+H*.05))};
-    const xc=xL+H*.13;if(pg===0){col(xc);col(W-xc)}else if(pg===2){doric(xc);doric(W-xc)}
+    const xc=xL+H*.13;col(xc);col(W-xc);
     // palmetas e l\u00f3tus (anthemion), espelhados
     const cxm=W/2,cym=(y3+y4)/2+H*.01,Rw=mz*.46,hp=mz*.74,yb=y4-mz*.07;
     const palm=x=>{for(let j=0;j<7;j++){const t=j/6-.5,a=-Math.PI/2+t*2,len=hp*.82*(.62+.38*Math.cos(t*Math.PI));g.save();g.translate(x,yb-hp*.14);g.rotate(a);petal(len,len*.13,.5+.08*(1-Math.abs(t)*2),.05);g.restore()}
@@ -978,25 +979,44 @@ function heights(sk,W,H,pg){const c=document.createElement('canvas');c.width=W;c
       for(let j=0;j<10;j++){const t=j/9;g.fillStyle=gray(.42+.24*Math.sin(t*Math.PI/2));body(1-t*.82);g.fill()}
       for(const s of[-1,1]){const pts=[];for(let t=0;t<=1;t+=.04){const u=1-t,p0=[x+s*w*.45,ybt-hh*.68],p1=[x+s*w*1.05,ybt-hh*.74],p2=[x+s*w*.85,ybt-hh*.95],p3=[x+s*w*.2,ybt-hh*.86];pts.push([u*u*u*p0[0]+3*u*u*t*p1[0]+3*u*t*t*p2[0]+t*t*t*p3[0],u*u*u*p0[1]+3*u*u*t*p1[1]+3*u*t*t*p2[1]+t*t*t*p3[1]])}tube(pts,hh*.035,.5,.62,6)}
       for(const t of[.36,.62])groove([[x-rad(t)*.92,ybt-t*hh],[x+rad(t)*.92,ybt-t*hh]],Math.max(2,hh*.018),.62,.54,4)};
-    // um desenho diferente por aba (minimalista)
-    {const cy0=(y3+y4)/2,cx0=W/2,xa=xL+H*.27,xb=W-xL-H*.27,span=xb-xa,lw=mz*.05;
-      if(pg===1){ // Filtro: fileira de barras caneladas desenhando a curva do filtro
-        const n=23,bw=span/n;for(let j=0;j<n;j++){const t=(j+.5)/n,amp=(t<.62?.55:.55-Math.pow((t-.62)/.38,.8)*.5)+.32*Math.exp(-Math.pow((t-.6)/.06,2)),hh=mz*.78*Math.max(.06,amp),x=xa+(j+.5)*bw,yb=y4-mz*.1;
-          tube([[x,yb],[x,yb-hh]],bw*.5,.44,.66,8);dome(x,yb-hh,bw*.2,.68)}
-        tube([[xa,y4-mz*.07],[xb,y4-mz*.07]],lw*.6,.4,.52,5)}
-      else if(pg===2){ // Envelope: a forma ADSR em relevo cheio, como um front\u00e3o
-        const yb=y4-mz*.1,top=y3+mz*.14,pts=[[xa,yb],[xa+span*.2,top],[xa+span*.34,top+mz*.26],[xa+span*.72,top+mz*.26],[xb,yb]];
-        for(let j=0;j<9;j++){const t=j/8,sh=t*mz*.035;g.fillStyle=gray(.4+.22*Math.sin(t*Math.PI/2));g.beginPath();g.moveTo(pts[0][0]+sh*2,pts[0][1]);for(const p of pts.slice(1,4))g.lineTo(p[0],p[1]+sh);g.lineTo(pts[4][0]-sh*2,pts[4][1]);g.closePath();g.fill()}
-        for(const p of pts.slice(1,4))dome(p[0],p[1]+mz*.015,mz*.035,.7)}
-      else if(pg===3){ // Movimento: tr\u00edscele (tr\u00eas espirais girando)
-        const Rt=mz*.58;for(let j=0;j<3;j++){const a0=j*Math.PI*2/3-Math.PI/2,ex=cx0+Math.cos(a0)*Rt*.52,ey=cy0+Math.sin(a0)*Rt*.52;
-          tube(spiral(ex,ey,Rt*.5,Rt*.04,a0+Math.PI,1.6,1),lw*1.25,.44,.7,8)}dome(cx0,cy0,lw*1.2,.72)}
-      else if(pg===4){ // Efeitos: ondas conc\u00eantricas e ecos que v\u00e3o sumindo
-        for(let j=0;j<3;j++){const r=mz*(.12+j*.12),p=[];for(let t=0;t<=1.0001;t+=.01)p.push([cx0+Math.cos(t*7)*r,cy0+Math.sin(t*7)*r]);tube(p,lw*(.9-j*.18),.44,.7-j*.07,8)}dome(cx0,cy0,lw*1.3,.74);
-        for(const sd of[-1,1])for(let j=1;j<=5;j++){const x=cx0+sd*(mz*.5+j*span*.075),r=mz*(.11-j*.016);dome(x,cy0,r,.66-j*.035)}}
-      else{ // Osciladores: uma onda longa de ponta a ponta
-        const P=[];for(let t=0;t<=1.0001;t+=.004)P.push([xa+t*span,cy0-Math.sin(t*Math.PI*4)*mz*.26*Math.sin(t*Math.PI)]);tube(P,lw*1.3,.44,.72,9);
-        for(const x of[xa,xb])dome(x,cy0,lw*1.1,.68)}}
+    // emblema central, um por aba
+    if(pg===1){ // Filtro: \u00e2nfora entre palmetas e l\u00f3tus
+      amph(cxm,mz*.8);for(const sd of[-1,1]){palm(cxm+sd*mz*.78);lotus(cxm+sd*mz*1.5)}
+      tube([[cxm-mz*1.9,yb+mz*.02],[cxm+mz*1.9,yb+mz*.02]],mz*.03,.4,.52,5)}
+    else if(pg===2){ // Envelope: sol nascente (H\u00e9lio)
+      const sy=y4-mz*.1,sr=mz*.3;g.save();g.beginPath();g.rect(0,0,W,sy);g.clip();
+      for(let j=0;j<15;j++){const a=-Math.PI+(j+.5)/15*Math.PI,ln=mz*(j%2?.32:.44);g.save();g.translate(cxm+Math.cos(a)*sr*1.12,sy+Math.sin(a)*sr*1.12);g.rotate(a);petal(ln,ln*.13,.6,.05);g.restore()}
+      dome(cxm,sy,sr,.7);const p=[];for(let t=0;t<=1.0001;t+=.01){const a=-Math.PI+t*Math.PI;p.push([cxm+Math.cos(a)*sr*.78,sy+Math.sin(a)*sr*.78])}groove(p,mz*.02,.68,.6,4);g.restore();
+      tube([[xL+H*.26,sy],[W-xL-H*.26,sy]],mz*.045,.42,.6,7)}
+    else if(pg===3){ // Movimento: tridente de Poseidon entre ondas
+      const top=y3+mz*.12,bot=y4-mz*.08,sw2=mz*.045;tube([[cxm,bot],[cxm,top+mz*.2]],sw2,.48,.7,8);
+      const bar=[];for(let t=0;t<=1.0001;t+=.02){const x=cxm+(t-.5)*mz*.42;bar.push([x,top+mz*.3-Math.cos((t-.5)*Math.PI)*mz*.05])}tube(bar,sw2,.48,.7,8);
+      for(const dx of[-.21,0,.21]){const x=cxm+dx*mz,y0=top+mz*(dx?.3:.25);tube([[x,y0],[x,top+mz*.06]],sw2*.9,.48,.7,7);leaf(x,top+mz*.1,-Math.PI/2,mz*.1,mz*.035,.72,0)}
+      dome(cxm,bot-mz*.18,mz*.04,.7);
+      for(const sd of[-1,1])for(let j=0;j<3;j++){const x=cxm+sd*mz*(.6+j*.5),y=(y3+y4)/2+mz*.08,r=mz*(.2-j*.035);tube(spiral(x,y,r,r*.15,sd>0?Math.PI:0,1.3,sd),mz*.035,.44,.62-j*.03,6)}}
+    else if(pg===4){ // Efeitos: ros\u00e1cea com ramos de oliveira
+      const rr=mz*.4;for(let j=0;j<14;j++){const a=j/14*Math.PI*2;g.save();g.translate(cxm,cym);g.rotate(a);petal(rr*.95,rr*.2,.58,.06);g.restore()}
+      for(let j=0;j<8;j++){const a=(j+.5)/8*Math.PI*2;g.save();g.translate(cxm,cym);g.rotate(a);petal(rr*.55,rr*.17,.66,.05);g.restore()}dome(cxm,cym,rr*.17,.74);
+      const p=[];for(let t=0;t<=1.0001;t+=.01)p.push([cxm+Math.cos(t*7)*rr*1.08,cym+Math.sin(t*7)*rr*1.08]);tube(p,mz*.03,.42,.56,5);
+      for(const sd of[-1,1]){const x0=cxm+sd*rr*1.25,x1=cxm+sd*mz*1.95;tube([[x0,cym],[x1,cym]],mz*.018,.42,.54,4);
+        for(let j=0;j<7;j++){const t=(j+.6)/7.6,x=x0+(x1-x0)*t,sc=1-t*.4;for(const s2 of[-1,1])leaf(x,cym,(sd>0?0:Math.PI)+s2*sd*.65,mz*.16*sc,mz*.04*sc,.56);if(j%2)dome(x+sd*mz*.04,cym+mz*.06,mz*.025,.62)}}}
+    else{ // Osciladores: lira de Apolo na coroa de louros
+    // coroa de louros
+      for(const s of[-1,1]){const pts=[];for(let t=0;t<=1;t+=.02){const a=Math.PI/2+s*t*Math.PI*.88;pts.push([cxm+Math.cos(a)*Rw,cym+Math.sin(a)*Rw])}tube(pts,3.2*k,.36,.46,5);
+        for(let j=1;j<17;j++){const t=j/17,a=Math.PI/2+s*t*Math.PI*.88,px=cxm+Math.cos(a)*Rw,py=cym+Math.sin(a)*Rw,ta=a+s*Math.PI/2,sc=1-t*.35;
+          for(const sd of[-1,1])leaf(px,py,ta+sd*.6,Rw*.24*sc,Rw*.06*sc,.56);if(j%3===1)dome(px+Math.cos(a)*Rw*.05,py+Math.sin(a)*Rw*.05,Math.max(2,3*k),.62)}}
+      oval(cxm,cym+Rw,Rw*.07,Rw*.05,.62);
+      // lira de Apolo
+      {const L=Rw*.8,by2=cym+L*.46;
+        for(const s of[-1,1]){const arm=[],p0=[cxm+s*L*.32,by2-L*.1],p1=[cxm+s*L*.85,by2-L*.45],p2=[cxm+s*L*.12,cym-L*.5],p3=[cxm+s*L*.5,cym-L*.86];
+          for(let t=0;t<=1;t+=.02){const u=1-t;arm.push([u*u*u*p0[0]+3*u*u*t*p1[0]+3*u*t*t*p2[0]+t*t*t*p3[0],u*u*u*p0[1]+3*u*u*t*p1[1]+3*u*t*t*p2[1]+t*t*t*p3[1]])}
+          tube(arm,L*.1,.5,.7,9);tube(spiral(cxm+s*L*.58,cym-L*.82,L*.09,L*.02,s>0?Math.PI:0,1.2,s),L*.05,.6,.7,6)}
+        tube([[cxm-L*.48,cym-L*.6],[cxm+L*.48,cym-L*.6]],L*.075,.56,.72,8);
+        for(let j=0;j<7;j++){const sx=cxm+(j-3)*L*.08;tube([[sx,cym-L*.58],[sx,by2-L*.06]],Math.max(1.4,1.8*k),.6,.66,3);dome(sx,cym-L*.6,L*.032,.78)}
+        for(let j=0;j<7;j++){const t=j/6;g.fillStyle=gray(.5+.16*Math.sin(t*Math.PI/2));g.beginPath();g.ellipse(cxm,by2,L*.52*(1-t*.22),L*.25*(1-t*.34),0,0,7);g.fill()}
+        for(let j=0;j<8;j++){const a=j*Math.PI/4;g.save();g.translate(cxm,by2+L*.02);g.rotate(a);petal(L*.1,L*.04,.72,.03);g.restore()}dome(cxm,by2+L*.02,L*.035,.78);
+        tube([[cxm-L*.28,by2-L*.07],[cxm+L*.28,by2-L*.07]],L*.045,.62,.74,5)}
+  }
     const prof=[.98,.98,.97,.93,.86,.77,.67,.6,.54,.47,.55,.5,.42,.34,.27,.21,.16,.12];prof.forEach((v,i)=>{g.strokeStyle=gray(v);g.lineWidth=1.7*k;const o=(i*1.5+.8)*k;g.strokeRect(o,o,W-2*o,H-2*o)})}
   const d=g.getImageData(0,0,W,H).data,h=new Float32Array(W*H);for(let i=0;i<h.length;i++)h[i]=d[i*4]/255;
   if(sk==='neo'){g.globalCompositeOperation='source-over';g.fillStyle='#000';g.fillRect(0,0,W,H);g.globalCompositeOperation='lighten';const n=Math.round(W*H/(4200*k*k));
