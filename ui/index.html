@@ -142,6 +142,7 @@ html.plug .wrap{width:1180px;max-width:none;padding:20px 26px 16px;position:rela
 html.plug .brw{position:absolute;left:26px;right:26px;top:80px;z-index:40;margin:0}
 html.plug .plist{max-height:300px}
 html.plug .tip{display:none}
+html.plug .kb{height:178px}html.plug .wh{height:150px}
 .mark .wm{font-size:36px}
 </style></head><body>
 <div class="wrap" id="app" data-skin="mar">
@@ -821,7 +822,7 @@ const PAGES=[['Osciladores',['w1','w2','o2','det','mix','uni','spread','sub','no
 let fav=new Set();try{fav=new Set(JSON.parse(localStorage.getItem('synth_fav')||'[]'))}catch(e){}
 let P={...D},PL={...D},cur='',cat='Leads',user=[],bend=0,modw=0,page=0,skin='mar';
 try{user=JSON.parse(localStorage.getItem('synth_user')||'[]');skin=localStorage.getItem('synth_skin')||'mar'}catch(e){}
-const JB=(window.__JUCE__&&window.__JUCE__.backend)||null,VW=()=>JB?1240:innerWidth;let booting=true,MW=null;
+const JB=(window.__JUCE__&&window.__JUCE__.backend)||null,VW=()=>JB?1240:innerWidth,NOCT=()=>JB?4:VW()<600?1:VW()<1000?2:3,MAXB=()=>Math.min(84,120-NOCT()*12);let booting=true,MW=null;
 // ---- \u00e1udio ----
 let ac,bus,shaper,master,an,dl,dlFb,dlG,cv,rvG,lfo,lfoG,lfoV,lfoT,choG,nbuf;const voices=new Set();
 const mtof=m=>440*2**((m-69)/12);
@@ -883,11 +884,11 @@ const kb=$('#kb');
 const NN=['C','C#','D','D#','E','F','F#','G','G#','A','A#','B'],nname=m=>NN[m%12]+(Math.floor(m/12)-1);let lastV=0;
 const vis=(m,x)=>{const k=kb.querySelector(`[data-m="${m}"]`);k&&k.classList.toggle('on',!!x);if(x){$('#nd').textContent=nname(m)+(lastV?' \u00b7 '+lastV:'');lastV=0}};
 const flash=m=>{$('#nd').textContent=nname(m);const k=kb.querySelector(`[data-m="${m}"]`);if(k&&!held.includes(m)){k.classList.add('on');setTimeout(()=>k.classList.remove('on'),110)}};
-function drawKb(){const n=(VW()<600?1:VW()<1000?2:3)*12+1,wi=[0,2,4,5,7,9,11],wh=[];for(let i=0;i<n;i++)if(wi.includes(i%12))wh.push(base+i);const w=100/wh.length;
+function drawKb(){const n=NOCT()*12+1,wi=[0,2,4,5,7,9,11],wh=[];for(let i=0;i<n;i++)if(wi.includes(i%12))wh.push(base+i);const w=100/wh.length;
   let h=wh.map((m,j)=>`<div class="k w" data-m="${m}" style="left:${j*w}%;width:${w}%">${m%12===0?'<i>C'+(m/12-1)+'</i>':''}</div>`).join('');
   for(let i=0;i<n;i++)if(!wi.includes(i%12)){const j=wh.indexOf(base+i-1)+1;h+=`<div class="k b" data-m="${base+i}" style="left:${j*w-w*.29}%;width:${w*.58}%"></div>`}
   kb.innerHTML=h;held.forEach(m=>vis(m,1));octUI()}
-function octUI(){const o=base/12-1;$('#olab').textContent=T('oct')+' '+o;$('#oleds').innerHTML=[1,2,3,4,5,6].map(n=>`<i class="${n===o?'on':''}"></i>`).join('')}
+function octUI(){const o=base/12-1;$('#olab').textContent=T('oct')+' '+o;$('#oleds').innerHTML=Array.from({length:MAXB()/12-1},(_,i)=>i+1).map(n=>`<i class="${n===o?'on':''}"></i>`).join('')}
 const ptr=new Map();
 kb.addEventListener('pointerdown',e=>{const k=e.target.closest('.k');if(!k)return;e.preventDefault();const m=+k.dataset.m;ptr.set(e.pointerId,m);on(m)});
 kb.addEventListener('pointermove',e=>{if(!ptr.has(e.pointerId))return;const el=document.elementFromPoint(e.clientX,e.clientY),k=el&&el.closest('.k'),m=k?+k.dataset.m:null,o=ptr.get(e.pointerId);
@@ -896,9 +897,9 @@ const up=e=>{if(!ptr.has(e.pointerId))return;const o=ptr.get(e.pointerId);if(o!=
 addEventListener('pointerup',up);addEventListener('pointercancel',up);
 const KM='awsedftgyhujkolp;';
 addEventListener('keydown',e=>{if(e.repeat||e.metaKey||e.ctrlKey||e.target.matches('input'))return;const c=e.key.toLowerCase();
-  if(c==='z'||c==='x'){panic();base=Math.max(24,Math.min(84,base+(c==='z'?-12:12)));drawKb();return}const i=KM.indexOf(c);if(i>=0)on(base+i)});
+  if(c==='z'||c==='x'){panic();base=Math.max(24,Math.min(MAXB(),base+(c==='z'?-12:12)));drawKb();return}const i=KM.indexOf(c);if(i>=0)on(base+i)});
 addEventListener('keyup',e=>{const i=KM.indexOf(e.key.toLowerCase());if(i>=0)off(base+i)});
-$('#odn').onclick=()=>{panic();base=Math.max(24,base-12);drawKb()};$('#oup').onclick=()=>{panic();base=Math.min(84,base+12);drawKb()};
+$('#odn').onclick=()=>{panic();base=Math.max(24,base-12);drawKb()};$('#oup').onclick=()=>{panic();base=Math.min(MAXB(),base+12);drawKb()};
 $('#panic').onclick=panic;
 function midiMsg(e){const[st,d1,d2]=e.data,c=st&0xf0;
   if(c===0x90&&d2>0){lastV=d2;on(d1)}else if(c===0x80||(c===0x90&&d2===0))off(d1);
