@@ -1,11 +1,34 @@
+#if defined (_WIN32)
+ #ifndef NOMINMAX
+  #define NOMINMAX
+ #endif
+ #ifndef WIN32_LEAN_AND_MEAN
+  #define WIN32_LEAN_AND_MEAN
+ #endif
+ #include <windows.h>
+#endif
 #include "PluginEditor.h"
 #include "BinaryData.h"
+
+// Devolve o foco do teclado para a janela do FL: assim o "teclado do computador" do FL
+// (com a escala e a tônica escolhidas lá) continua funcionando com o Nosfera aberto.
+void NosferaEditor::giveFocusBack()
+{
+   #if defined (_WIN32)
+    if (auto* peer = getPeer())
+        if (auto h = (HWND) peer->getNativeHandle())
+            if (auto root = GetAncestor (h, GA_ROOT))
+                SetFocus (root);
+   #endif
+}
 
 NosferaEditor::NosferaEditor (NosferaProcessor& p)
     : AudioProcessorEditor (&p), proc (p), web (makeOptions())
 {
     addAndMakeVisible (web);
     web.goToURL (juce::WebBrowserComponent::getResourceProviderRoot());
+    setWantsKeyboardFocus (false);
+    web.setWantsKeyboardFocus (false);
     setResizable (true, true);
     setResizeLimits (640, 480, 2600, 2000);
     setSize (980, 740);
@@ -48,6 +71,11 @@ juce::WebBrowserComponent::Options NosferaEditor::makeOptions()
                 for (const auto& prop : obj->getProperties())
                     proc.setParameterFromUi (prop.name.toString(), prop.value);
             proc.presetName = e.getProperty ("name", {}).toString();
+        })
+        // A página terminou um clique: o foco volta para o FL.
+        .withEventListener ("blur", [this] (const juce::var&)
+        {
+            juce::MessageManager::callAsync ([safe = juce::Component::SafePointer<NosferaEditor> (this)] { if (safe != nullptr) safe->giveFocusBack(); });
         })
         .withEventListener ("panic", [this] (const juce::var&) { proc.uiPanic = true; proc.keyboard.allNotesOff (1); })
         .withEventListener ("bend", [this] (const juce::var& e) { proc.uiBend = (float) (double) e.getProperty ("c", 0.0); })

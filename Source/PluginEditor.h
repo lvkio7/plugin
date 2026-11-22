@@ -15,6 +15,7 @@ private:
     std::optional<juce::WebBrowserComponent::Resource> getResource (const juce::String& url);
     void timerCallback() override;
     void sendState();
+    void giveFocusBack();
 
     NosferaProcessor& proc;
     juce::WebBrowserComponent web;
