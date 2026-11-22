@@ -980,9 +980,15 @@ function heights(sk,W,H,pg){const c=document.createElement('canvas');c.width=W;c
       for(const s of[-1,1]){const pts=[];for(let t=0;t<=1;t+=.04){const u=1-t,p0=[x+s*w*.45,ybt-hh*.68],p1=[x+s*w*1.05,ybt-hh*.74],p2=[x+s*w*.85,ybt-hh*.95],p3=[x+s*w*.2,ybt-hh*.86];pts.push([u*u*u*p0[0]+3*u*u*t*p1[0]+3*u*t*t*p2[0]+t*t*t*p3[0],u*u*u*p0[1]+3*u*u*t*p1[1]+3*u*t*t*p2[1]+t*t*t*p3[1]])}tube(pts,hh*.035,.5,.62,6)}
       for(const t of[.36,.62])groove([[x-rad(t)*.92,ybt-t*hh],[x+rad(t)*.92,ybt-t*hh]],Math.max(2,hh*.018),.62,.54,4)};
     // emblema central, um por aba
-    if(pg===1){ // Filtro: \u00e2nfora entre palmetas e l\u00f3tus
-      amph(cxm,mz*.8);for(const sd of[-1,1]){palm(cxm+sd*mz*.78);lotus(cxm+sd*mz*1.5)}
-      tube([[cxm-mz*1.9,yb+mz*.02],[cxm+mz*1.9,yb+mz*.02]],mz*.03,.4,.52,5)}
+    if(pg===1){ // Filtro: fachada de templo grego
+      const tw=mz*1.5,bx=cxm-tw/2,base=y4-mz*.08,st=mz*.05;
+      for(let j=0;j<3;j++)slab(bx-st*(3-j),base-st*(j+1),tw+st*2*(3-j),st,.46+j*.04,2*k);
+      const ct=y3+mz*.42,cb=base-st*3,nc=6;for(let j=0;j<nc;j++){const x=bx+tw*(j+.5)/nc,cw=tw/nc*.42,gr=g.createLinearGradient(x-cw/2,0,x+cw/2,0);gr.addColorStop(0,gray(.46));gr.addColorStop(.5,gray(.64));gr.addColorStop(1,gray(.46));g.fillStyle=gr;g.fillRect(x-cw/2,ct,cw,cb-ct);
+        for(let f=0;f<3;f++)groove([[x-cw*.25+f*cw*.25,ct+mz*.02],[x-cw*.25+f*cw*.25,cb-mz*.01]],cw*.14,.62,.55,3);slab(x-cw*.7,ct-mz*.035,cw*1.4,mz*.035,.62,2*k)}
+      slab(bx-st,ct-mz*.13,tw+st*2,mz*.095,.6,3*k);for(let j=0;j<18;j++){const x=bx+tw*(j+.5)/18;slab(x-mz*.012,ct-mz*.12,mz*.024,mz*.04,.66,1)}
+      const py=ct-mz*.13;for(let j=0;j<8;j++){const t=j/7,i=t*mz*.03;g.fillStyle=gray(.5+.16*Math.sin(t*Math.PI/2));g.beginPath();g.moveTo(bx-st+i*2.2,py-i*.3);g.lineTo(cxm,y3+mz*.06+i*1.4);g.lineTo(bx+tw+st-i*2.2,py-i*.3);g.closePath();g.fill()}
+      dome(cxm,py-mz*.1,mz*.035,.74);
+    }
     else if(pg===2){ // Envelope: sol nascente (H\u00e9lio)
       const sy=y4-mz*.1,sr=mz*.3;g.save();g.beginPath();g.rect(0,0,W,sy);g.clip();
       for(let j=0;j<15;j++){const a=-Math.PI+(j+.5)/15*Math.PI,ln=mz*(j%2?.32:.44);g.save();g.translate(cxm+Math.cos(a)*sr*1.12,sy+Math.sin(a)*sr*1.12);g.rotate(a);petal(ln,ln*.13,.6,.05);g.restore()}
