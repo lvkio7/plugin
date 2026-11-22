@@ -323,13 +323,13 @@ private:
         }
 
         // ---- efeitos globais ----
-        const float k = 1.0f + p.drive * 20.0f, tk = std::tanh (k);
+        const float k = 1.0f + p.drive * p.drive * 9.0f, tk = std::tanh (k);
         const double dTime = 60.0 / std::max (30.0f, p.bpm) * 0.75 * sr;
         const float fb = std::min (0.85f, p.fb), wet = p.dly * 0.8f, choG = p.cho * 0.6f, revG = p.rev * 1.2f, vol = p.vol;
         float sumSq = 0;
         for (int s = 0; s < n; ++s) {
             auto shape = [&] (float x) { return std::tanh (k * std::clamp (x, -1.0f, 1.0f)) / tk; };
-            const float dl = shape (L[s] * 0.45f), dr = shape (R[s] * 0.45f);
+            const float dl = shape (L[s] * 0.45f) * 1.8f, dr = shape (R[s] * 0.45f) * 1.8f; // ganho de compensação do drive
             // delay
             const float yl = delay[0].read (dTime), yr = delay[1].read (dTime);
             delay[0].push (dl + yl * fb); delay[1].push (dr + yr * fb);

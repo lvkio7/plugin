@@ -20,7 +20,7 @@ int main (int argc, char** argv) {
     const bool wav = argc > 1;
     int fails = 0; double worst = 0;
     std::FILE* csv = std::fopen ("tests/results.csv", "w");
-    std::fprintf (csv, "name,category,rms,peak,nan,realtime_x\n");
+    std::fprintf (csv, "name,category,rms,peak,nan,realtime_x,bright\n");
     for (const auto& pr : getPresets()) {
         Synth s; s.p = pr.params; s.prepare (sr);
         const bool single = pr.params.mono || pr.params.arp;
@@ -42,10 +42,12 @@ int main (int argc, char** argv) {
             maxWin = std::max (maxWin, std::sqrt (ws / 9600.0));
         }
         for (int i = 0; i < total; ++i) { const float a = std::abs (L[(size_t) i]), b = std::abs (R[(size_t) i]); if (! std::isfinite (a) || ! std::isfinite (b)) nan = true; peak = std::max (peak, std::max (a, b)); sumSq += a * a; }
+        double dsq = 0, xsq = 0; for (int i = 4800; i < offAt; ++i) { const double dx = L[(size_t) i] - L[(size_t) i - 1]; dsq += dx * dx; xsq += (double) L[(size_t) i] * L[(size_t) i]; }
+        const double bright = xsq > 0 ? std::sqrt (dsq / xsq) : 0;
         const double rt = 2.0 / secs; worst = std::min (worst == 0 ? rt : worst, rt);
         const bool bad = nan || maxWin < 0.01 || peak > 1.0f;
         if (bad) { ++fails; std::printf ("PROBLEMA: %s rms=%.4f peak=%.3f nan=%d\n", pr.name, maxWin, peak, nan); }
-        std::fprintf (csv, "%s,%s,%.4f,%.3f,%d,%.1f\n", pr.name, pr.category, maxWin, peak, nan, rt);
+        std::fprintf (csv, "%s,%s,%.4f,%.3f,%d,%.1f,%.4f\n", pr.name, pr.category, maxWin, peak, nan, rt, bright);
         if (wav) writeWav (std::string ("tests/wav/") + pr.name + ".wav", L, R, sr);
     }
     std::fclose (csv);
